@@ -12,7 +12,7 @@ public class Users {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private Integer userId;
 
     @Column(unique = true)
     private String email;
@@ -27,27 +27,27 @@ public class Users {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "userTypeId", referencedColumnName = "userTypeId")
-    private UsersType usersType;
+    private UsersType userTypeId;
 
     public Users() {
 
     }
 
-    public Users(Integer id, String email, String password, boolean isActive, Date registrationDate, UsersType usersType) {
-        this.id = id;
+    public Users(Integer userId, String email, String password, boolean isActive, Date registrationDate, UsersType userTypeId) {
+        this.userId = userId;
         this.email = email;
         this.password = password;
         this.isActive = isActive;
         this.registrationDate = registrationDate;
-        this.usersType = usersType;
+        this.userTypeId = userTypeId;
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setUserId(Integer id) {
+        this.userId = id;
     }
 
     public String getEmail() {
@@ -82,23 +82,23 @@ public class Users {
         this.registrationDate = registrationDate;
     }
 
-    public UsersType getUsersType() {
-        return usersType;
+    public UsersType getUserTypeId() {
+        return userTypeId;
     }
 
-    public void setUsersType(UsersType usersType) {
-        this.usersType = usersType;
+    public void setUserTypeId(UsersType usersType) {
+        this.userTypeId = usersType;
     }
 
     @Override
     public String toString() {
         return "Users{" +
-                "id=" + id +
+                "id=" + userId +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", isActive=" + isActive +
                 ", registrationDate=" + registrationDate +
-                ", usersType=" + usersType +
+                ", usersType=" + userTypeId +
                 '}';
     }
 }
