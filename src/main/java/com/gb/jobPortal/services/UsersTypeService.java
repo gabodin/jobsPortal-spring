@@ -19,5 +19,6 @@ public class UsersTypeService {
 
     public List<UsersType> findAll() {
         return usersTypeRepository.findAll();
+
     }
 }

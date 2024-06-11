@@ -3,6 +3,7 @@ package com.gb.jobPortal.controller;
 import com.gb.jobPortal.entity.Users;
 import com.gb.jobPortal.entity.UsersType;
 import com.gb.jobPortal.repository.UsersTypeRepository;
+import com.gb.jobPortal.services.UsersService;
 import com.gb.jobPortal.services.UsersTypeService;
 import jakarta.servlet.http.PushBuilder;
 import jakarta.validation.Valid;
@@ -19,10 +20,12 @@ import java.util.List;
 public class UsersController {
 
     private final UsersTypeService usersTypeService;
+    private final UsersService usersService;
 
     @Autowired
-    public UsersController(UsersTypeService usersTypeService) {
+    public UsersController(UsersTypeService usersTypeService, UsersService usersService) {
         this.usersTypeService = usersTypeService;
+        this.usersService = usersService;
     }
 
     @GetMapping("/register")
@@ -37,7 +40,7 @@ public class UsersController {
 
     @PostMapping("/register/new")
     public String userRegistration(@Valid Users users) {
-        System.out.println("User::" + users);
+        usersService.addUser(users);
         return "dashboard";
     }
 
