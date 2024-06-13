@@ -4,6 +4,7 @@ import com.gb.jobPortal.entity.RecruiterProfile;
 import com.gb.jobPortal.entity.Users;
 import com.gb.jobPortal.repository.UsersRepository;
 import com.gb.jobPortal.services.RecruiterProfileService;
+import com.gb.jobPortal.utils.FileUploadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -49,10 +51,10 @@ public class RecruiterProfileController {
             recruiterProfile.ifPresent(profile -> model.addAttribute("profile", profile));
         }
 
-        return "recruiter-profile";
+        return "recruiter_profile";
     }
 
-
+    @PostMapping("/addNew")
     public String addNew(RecruiterProfile recruiterProfile,
                          @RequestParam("image") MultipartFile file,
                          Model model) {
@@ -76,6 +78,12 @@ public class RecruiterProfileController {
 
         String uploadDir = "photos/recruiter/" + savedUser.getUserAccountId();
 
-        return null;
+        try {
+            FileUploadUtil.saveFile(uploadDir, filename, file);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        return "redirect:/dashboard/";
     }
 }
