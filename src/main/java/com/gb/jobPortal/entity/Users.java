@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.util.Date;
+import java.time.ZonedDateTime;
 
 @Entity
 @Table(name = "users")
@@ -23,7 +23,7 @@ public class Users {
     private boolean isActive;
 
     @DateTimeFormat(pattern = "dd-MM-yyyy")
-    private Date registrationDate;
+    private ZonedDateTime registrationDate;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "userTypeId", referencedColumnName = "userTypeId")
@@ -33,7 +33,7 @@ public class Users {
 
     }
 
-    public Users(Integer userId, String email, String password, boolean isActive, Date registrationDate, UsersType userTypeId) {
+    public Users(Integer userId, String email, String password, boolean isActive, ZonedDateTime registrationDate, UsersType userTypeId) {
         this.userId = userId;
         this.email = email;
         this.password = password;
@@ -74,11 +74,11 @@ public class Users {
         isActive = active;
     }
 
-    public Date getRegistrationDate() {
+    public ZonedDateTime getRegistrationDate() {
         return registrationDate;
     }
 
-    public void setRegistrationDate(Date registrationDate) {
+    public void setRegistrationDate(ZonedDateTime registrationDate) {
         this.registrationDate = registrationDate;
     }
 

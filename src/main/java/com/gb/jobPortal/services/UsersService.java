@@ -15,6 +15,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Date;
 
 @Service
@@ -37,7 +39,7 @@ public class UsersService {
 
     public Users addUser(Users user) {
         user.setActive(true);
-        user.setRegistrationDate(new Date(System.currentTimeMillis()));
+        user.setRegistrationDate(ZonedDateTime.now(ZoneId.of("America/Sao_Paulo")));
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         Users savedUser = usersRepository.save(user);
 
