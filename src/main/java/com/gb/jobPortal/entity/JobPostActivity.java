@@ -19,7 +19,7 @@ public class JobPostActivity {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "jobLocationId", referencedColumnName = "id")
-    private JobLocation jobLocation;
+    private JobLocation jobLocationId;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "jobCompanyId", referencedColumnName = "id")
@@ -32,7 +32,7 @@ public class JobPostActivity {
     private Boolean isSaved;
 
     @Length(max = 10000)
-    private String description;
+    private String descriptionOfJob;
 
     private String jobType;
     private String salary;
@@ -45,15 +45,15 @@ public class JobPostActivity {
     public JobPostActivity() {}
 
     public JobPostActivity(Integer jobPostId, Users postedById, JobLocation jobLocation, JobCompany jobCompanyId,
-                           Boolean isActive, Boolean isSaved, String description, String jobType, String salary, String remote,
+                           Boolean isActive, Boolean isSaved, String descriptionOfJob, String jobType, String salary, String remote,
                            ZonedDateTime postedDate, String jobTitle) {
         JobPostId = jobPostId;
         this.postedById = postedById;
-        this.jobLocation = jobLocation;
+        this.jobLocationId = jobLocation;
         this.jobCompanyId = jobCompanyId;
         this.isActive = isActive;
         this.isSaved = isSaved;
-        this.description = description;
+        this.descriptionOfJob = descriptionOfJob;
         this.jobType = jobType;
         this.salary = salary;
         this.remote = remote;
@@ -77,12 +77,12 @@ public class JobPostActivity {
         this.postedById = postedById;
     }
 
-    public JobLocation getJobLocation() {
-        return jobLocation;
+    public JobLocation getJobLocationId() {
+        return jobLocationId;
     }
 
-    public void setJobLocation(JobLocation jobLocation) {
-        this.jobLocation = jobLocation;
+    public void setJobLocationId(JobLocation jobLocation) {
+        this.jobLocationId = jobLocation;
     }
 
     public JobCompany getJobCompanyId() {
@@ -109,12 +109,12 @@ public class JobPostActivity {
         isSaved = saved;
     }
 
-    public @Length(max = 10000) String getDescription() {
-        return description;
+    public @Length(max = 10000) String getDescriptionOfJob() {
+        return descriptionOfJob;
     }
 
-    public void setDescription(@Length(max = 10000) String description) {
-        this.description = description;
+    public void setDescriptionOfJob(@Length(max = 10000) String descriptionOfJob) {
+        this.descriptionOfJob = descriptionOfJob;
     }
 
     public String getJobType() {
@@ -162,11 +162,11 @@ public class JobPostActivity {
         return "JobPostActivity{" +
                 "JobPostId=" + JobPostId +
                 ", postedById=" + postedById +
-                ", jobLocation=" + jobLocation +
+                ", jobLocation=" + jobLocationId +
                 ", jobCompanyId=" + jobCompanyId +
                 ", isActive=" + isActive +
                 ", isSaved=" + isSaved +
-                ", description='" + description + '\'' +
+                ", descriptionOfJob='" + descriptionOfJob + '\'' +
                 ", jobType='" + jobType + '\'' +
                 ", salary='" + salary + '\'' +
                 ", remote='" + remote + '\'' +

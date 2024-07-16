@@ -12,7 +12,7 @@
 	<artifactId>jobPortal</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>jobPortal</name>
-	<description>Job portal project</description>
+	<descriptionOfJob>Job portal project</descriptionOfJob>
 	<properties>
 		<java.version>21</java.version>
 	</properties>
