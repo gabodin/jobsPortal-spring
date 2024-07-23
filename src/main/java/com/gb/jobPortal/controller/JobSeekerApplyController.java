@@ -9,6 +9,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+
 @Controller
 public class JobSeekerApplyController {
 
@@ -25,7 +28,10 @@ public class JobSeekerApplyController {
     public String displayJob(@PathVariable("id") int id, Model model) {
         JobPostActivity jobDetails = jobPostActivityService.findById(id);
 
+        String formattedDate = jobDetails.getPostedDate().withZoneSameInstant(ZoneId.of("America/Sao_Paulo")).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+
         model.addAttribute("jobDetails", jobDetails);
+        model.addAttribute("formattedDate", formattedDate);
         model.addAttribute("user", usersService.getCurrentUserProfile());
 
         return "job-details";

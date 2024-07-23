@@ -142,6 +142,12 @@ public class JobSeekerProfile {
         this.profilePhoto = profilePhoto;
     }
 
+    public String getPhotosImagePath() {
+        if (profilePhoto == null || userAccountId == null) return null;
+
+        return "/photos/candidate/" + userAccountId + "/" + profilePhoto;
+    }
+
     public List<Skills> getSkills() {
         return skills;
     }
@@ -156,5 +162,22 @@ public class JobSeekerProfile {
         }
 
         this.skills.add(skill);
+    }
+
+    @Override
+    public String toString() {
+        return "JobSeekerProfile{" +
+                "userAccountId=" + userAccountId +
+                ", userId=" + userId +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", city='" + city + '\'' +
+                ", state='" + state + '\'' +
+                ", country='" + country + '\'' +
+                ", workAuthorization='" + workAuthorization + '\'' +
+                ", employmentType='" + employmentType + '\'' +
+                ", resume='" + resume + '\'' +
+                ", profilePhoto='" + profilePhoto + '\'' +
+                '}';
     }
 }
