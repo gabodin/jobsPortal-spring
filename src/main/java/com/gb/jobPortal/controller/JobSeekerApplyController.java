@@ -1,7 +1,9 @@
 package com.gb.jobPortal.controller;
 
 import com.gb.jobPortal.entity.JobPostActivity;
+import com.gb.jobPortal.entity.JobSeekerApply;
 import com.gb.jobPortal.services.JobPostActivityService;
+import com.gb.jobPortal.services.JobSeekerApplyService;
 import com.gb.jobPortal.services.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,11 +19,13 @@ public class JobSeekerApplyController {
 
     private final JobPostActivityService jobPostActivityService;
     private final UsersService usersService;
+    private final JobSeekerApplyService jobSeekerApplyService;
 
     @Autowired
-    public JobSeekerApplyController(JobPostActivityService jobPostActivityService, UsersService usersService) {
+    public JobSeekerApplyController(JobPostActivityService jobPostActivityService, UsersService usersService, JobSeekerApplyService jobSeekerApplyService) {
         this.jobPostActivityService = jobPostActivityService;
         this.usersService = usersService;
+        this.jobSeekerApplyService = jobSeekerApplyService;
     }
 
     @GetMapping("/job-details-apply/{id}")

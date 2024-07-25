@@ -1,10 +1,9 @@
 package com.gb.jobPortal.controller;
 
-import com.gb.jobPortal.entity.JobPostActivity;
-import com.gb.jobPortal.entity.RecruiterJobsDto;
-import com.gb.jobPortal.entity.RecruiterProfile;
-import com.gb.jobPortal.entity.Users;
+import com.gb.jobPortal.entity.*;
 import com.gb.jobPortal.services.JobPostActivityService;
+import com.gb.jobPortal.services.JobSeekerApplyService;
+import com.gb.jobPortal.services.JobSeekerSaveService;
 import com.gb.jobPortal.services.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -30,11 +29,15 @@ public class JobPostActivityController {
 
     private final UsersService usersService;
     private final JobPostActivityService jobPostActivityService;
+    private final JobSeekerApplyService jobSeekerApplyService;
+    private final JobSeekerSaveService jobSeekerSaveService;
 
     @Autowired
-    public JobPostActivityController(UsersService usersService, JobPostActivityService jobPostActivityService) {
+    public JobPostActivityController(UsersService usersService, JobPostActivityService jobPostActivityService, JobSeekerApplyService jobSeekerApplyService, JobSeekerSaveService jobSeekerSaveService) {
         this.usersService = usersService;
         this.jobPostActivityService = jobPostActivityService;
+        this.jobSeekerApplyService = jobSeekerApplyService;
+        this.jobSeekerSaveService = jobSeekerSaveService;
     }
 
     @GetMapping("/dashboard/")
@@ -68,7 +71,7 @@ public class JobPostActivityController {
         model.addAttribute("location", location);
 
         ZonedDateTime searchDate = null;
-        List<JobPostActivity> jobPost = null;
+        List<JobPostActivity> jobPosts = null;
         boolean dateSearchFlag = true;
         boolean remote = true;
         boolean type = true;
@@ -98,9 +101,9 @@ public class JobPostActivityController {
         }
 
         if (!dateSearchFlag && !remote && !type && !StringUtils.hasText(job) && !StringUtils.hasText(location)) {
-            jobPost = jobPostActivityService.getAll();
+            jobPosts = jobPostActivityService.getAll();
         } else {
-            jobPost = jobPostActivityService.search(job, location, Arrays.asList(partTime, fullTime, freelance),
+            jobPosts = jobPostActivityService.search(job, location, Arrays.asList(partTime, fullTime, freelance),
                     Arrays.asList(remoteOnly, officeOnly, partialRemote), searchDate);
         }
 
@@ -118,6 +121,42 @@ public class JobPostActivityController {
                         recruiterProfile.getUserAccountId());
                 System.out.println(recruiterJobsDtoList);
                 model.addAttribute("jobPost", recruiterJobsDtoList);
+            } else {
+                List<JobSeekerApply> jobSeekerApplies = jobSeekerApplyService.getCandidateApplies((JobSeekerProfile) currentUserProfile);
+                List<JobSeekerSave> jobSeekerSaves = jobSeekerSaveService.getCandidateApplies((JobSeekerProfile) currentUserProfile);
+
+                boolean exist;
+                boolean saved;
+
+                for (JobPostActivity jobActivity : jobPosts) {
+                    exist = false;
+                    saved = false;
+
+                    for (JobSeekerApply jobSeekerApply : jobSeekerApplies) {
+                        if (Objects.equals(jobActivity.getJobPostId(), jobSeekerApply.getJob().getJobPostId())) {
+                            jobActivity.setIsActive(true);
+                            exist = true;
+                            break;
+                        }
+                    }
+
+                    for (JobSeekerSave jobSeekerSave : jobSeekerSaves) {
+                        if (Objects.equals(jobActivity.getJobPostId(), jobSeekerSave.getJob().getJobPostId())) {
+                            jobActivity.setIsSaved(true);
+                            saved = true;
+                            break;
+                        }
+                    }
+
+                    if (!exist) {
+                        jobActivity.setIsActive(false);
+                    }
+                    if (!saved) {
+                        jobActivity.setIsActive(false);
+                    }
+
+                    model.addAttribute("jobPost", jobPosts);
+                }
             }
         }
 
