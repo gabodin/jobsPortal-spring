@@ -146,7 +146,14 @@ public class JobSeekerProfile {
     public String getPhotosImagePath() {
         if (profilePhoto == null || userAccountId == null) return null;
 
-        return "photos/candidate/" + userAccountId + "/" + profilePhoto;
+        return "/photos/candidate/" + userAccountId + "/" + profilePhoto;
+    }
+
+    @Transient
+    public String getResumeImagePath() {
+        if (profilePhoto == null || userAccountId == null) return null;
+
+        return "/files/resume/" + userAccountId + "/" + profilePhoto;
     }
 
     public List<Skills> getSkills() {

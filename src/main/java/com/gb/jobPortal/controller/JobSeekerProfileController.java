@@ -107,9 +107,15 @@ public class JobSeekerProfileController {
         JobSeekerProfile jobSeekerSaved = jobSeekerProfileService.addNew(jobSeekerProfile);
 
         try {
-            String uploadDir = "photos/candidate/" + jobSeekerSaved.getUserAccountId() + "/";
-            FileUploadUtil.saveFile(uploadDir, imageName, image);
-            FileUploadUtil.saveFile(uploadDir, resumeName, pdf);
+            String uploadDirImage = "photos/candidate/" + jobSeekerSaved.getUserAccountId() + "/";
+            String uploadDirResume = "resume/candidate/" + jobSeekerSaved.getUserAccountId() + "/";
+
+            if (!Objects.equals(image.getOriginalFilename(), "")) {
+                FileUploadUtil.saveFile(uploadDirImage, imageName, image);
+            }
+            if (!Objects.equals(pdf.getOriginalFilename(), "")) {
+                FileUploadUtil.saveFile(uploadDirResume, resumeName, pdf);
+            }
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }

@@ -58,4 +58,5 @@ hs_err_pid*
 replay_pid*
 
 photos/*
+resume/*
 src/main/resources/static/summernote/
